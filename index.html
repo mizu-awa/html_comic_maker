@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="style.css">
+<script type="text/javascript" src="config.js"></script>
+<script type="text/javascript" src="control.js"></script>
+<title>HTMLテキスト漫画ジェネレータ</title>
+</head>
+
+<body>
+	<h3>HTMLテキスト漫画ジェネレータ　アルファ版(GoogleChrome と FireFoxのみ)（テスト中なので不具合あり！）</h3>
+
+	<main onmouseup="onMouseUpTriangle()">
+	<div class="flexbox flex-row" id="panel">
+
+		<div id="view_picture" class="noDrag">
+			<h3>画像</h3>
+			フォルダ名<input type="text" value="" size="4" onchange="changeFolderName(this)"> <input type="file" id="getfile" onchange ="pictureLoad(this)" >画像選択 <select id="picture_select" onchange="choiceImageUrl()"></select> <!--<input type="button" value="画像消去">-->
+
+			<div id="dream_comic_01" class="dream_comic">
+				<img src="" draggable="false" id="dream_image">
+			</div>
+		</div>
+
+		<div id="control">
+
+			<div>
+				<h3>新規テキスト</h3>
+				<textarea placeholder="ここに入力" id="new_line_text"></textarea>
+				<input type="button" value="追加" onclick="addNewLine()">
+			</div>
+
+			<div>
+				<h3>選択中のテキスト</h3>
+				<h4>削除</h4>
+				<p><input type="button" value="削除" onclick="deleteLine()"></p>
+				<!--矢印たち-->
+				<h4>移動・回転</h4>
+				<div class="flexbox flex-row">
+					<div>
+						<div id="tri_set">
+							<div id="tri_left" class="tri" onmousedown="onMouseDownTriangle(0,-1)"></div>
+							<div id="tri_top" class="tri" onmousedown="onMouseDownTriangle(-1,0)"></div>
+							<div id="tri_bottom" class="tri" onmousedown="onMouseDownTriangle(1,0)"></div>
+							<div id="tri_right" class="tri" onmousedown="onMouseDownTriangle(0,1)"></div>
+						</div>
+						<div class="text_center">x <input type="text" value="" size="4" onchange="changeLineXView(this)" id="line_x_view">%</div>
+						<div class="text_center">y <input type="text" value="" size="4" onchange="changeLineYView(this)" id="line_y_view">%</div>
+					</div>
+					<div>
+						<div id="dir_set" class="flexbox flex-row">
+							<div id="dir_left" class="dir" onmousedown="onMouseDownDirection(-1)"><div class="tri"></div></div>
+							<div id="dir_right" class="dir" onmousedown="onMouseDownDirection(1)"><div class="tri"></div></div>
+						</div>
+						<div class="text_center"><input type="text" value="" size="3" onchange="changeLineDegView(this)" id="line_deg_view">deg</div>
+					</div>
+				</div>
+				<h4>フォント拡大率</h4>
+				<input type="number" step="3" value="100" min = "1" id="line_font_size" onchange="changeLineFontSize(this)">%<br>
+				<h4>文字の向き</h4>
+				横書き <input type="checkbox" onclick="choiceHorizontal()" id="horizontal_check"><br>
+			</div>
+
+			<div>
+				<h3>全体設定</h3>
+				<h4>基準のフォントサイズ</h4>
+				<input type="number" step="1" value="16" onchange="changeBaseFontSize(this)">px<br>
+				ドラッグ禁止 <input type="checkbox" onclick="choiceDrag()" id="drug_check"><br>
+				レスポンシブ <input type="checkbox" onclick="choiceResponsive()" id="res_check">
+					<br><span class="text_small">※画像がブラウザ全体に広がる表示。フレームページ非推奨。</span><br>
+				ボーダー有無 <input type="checkbox" onclick="choiceBorder()" id="border_check"><br>
+				左右中央揃え <input type="checkbox" onclick="choiceCenter()" id="center_check"><br>
+			</div>
+		</div>
+
+	</div>
+
+		<h3>html(body内に設置)</h3>
+		<div class="copy_text">
+			<p id="html_body_text"></p>
+		</div>
+
+		<h3>cssテキスト</h3>
+		<div class="copy_text">
+			<p id="css_text">
+				.dream_comic{<br>
+					font-family: "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, sans-serif;<br>
+					margin: 0.5em;<br>
+					border: none;<br>
+					position: relative;<br>
+					font-size: 16px;<br>
+					line-height: 1.2;<br>
+					display: table;<br>
+				}<br>
+				.dream_comic img{<br>
+					display: block;<br>
+				}<br>
+				.dream_comic p{<br>
+					/*縦書き設定*/<br>
+					-webkit-writing-mode: vertical-rl;<br>
+					-ms-writing-mode: tb-rl;<br>
+					writing-mode: vertical-rl;<br>
+					position: absolute;<br>
+					margin: 0;<br>
+					padding: 0;<br>
+				}<br>
+				.noDrag{<br>
+				}<br>
+			</p>
+		</div>
+
+		<h3>ダウンロード</h3>
+		<div class="copy_text">
+			<p>ダウンロードしたい項目をクリックしてください．<br>上記の領域からコピー&ペーストすることでもサイトに設置できます。</p>
+			<input type="button" value="HTML(漫画部分のみ)" onmousedown="downloadPureHTML()"> <input type="button" value="HTML(Webページ)" onmousedown="downloadWebPage()"> <input type="button" value="CSS" onmousedown="downloadCSS()"> <input type="button" value="複合HTML(CSSを含んだHTML)" onmousedown="downloadMix()"> <input type="button" value="管理人サイトテンプレ対応" onmousedown="downloadMySite()">
+		</div>
+
+		<h3>DreamMaker1対応ダウンロード</h3>
+		<div class="copy_text">
+			<p>全ての項目を設定した後に実行してください．<br>CSSはDreamMakerの有無にかかわらず同じものであるため、前述のボタンからダウンロードしてください．</p>
+			<div><span id="name_list_1"><input type="text" placeholder="項目名(例:苗字)" value=""> <input type="text" placeholder="変換文字列(例:みょうじ)"  value=""></span> <input type="button" value="項目追加" onclick="addDreamNameBox(1)"></div>
+			<input type="button" value="HTML(漫画部分のみ)" onmousedown="downloadPureHTMLDream1()"> <input type="button" value="HTML(Webページ)" onmousedown="downloadWebPageDream1()"> <input type="button" value="複合HTML(CSSを含んだHTML)" onmousedown="downloadMixDream1()">
+		</div>
+
+		<h3>DreamMaker2対応ダウンロード</h3>
+		<div class="copy_text">
+			<p>全ての項目を設定した後に実行してください．<br>CSSはDreamMakerの有無にかかわらず同じものであるため、前述のボタンからダウンロードしてください．<br>通常の小説と同じように、htmlファイルは、DreamMaker2の適用されたフォルダに置いてください．</p>
+			<div><span id="name_list_2"><input type="text" placeholder="変換文字列(例:みょうじ)"  value=""></span> <input type="button" value="項目追加" onclick="addDreamNameBox(2)"></div>
+			<input type="button" value="HTML(漫画部分のみ)" onmousedown="downloadPureHTMLDream2()"> <input type="button" value="HTML(Webページ)" onmousedown="downloadWebPageDream2()"> <input type="button" value="複合HTML(CSSを含んだHTML)" onmousedown="downloadMixDream2()">
+		</div>
+	</main>
+
+</body>
+
+</html>

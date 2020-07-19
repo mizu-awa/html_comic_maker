@@ -1,0 +1,189 @@
+﻿@charset "utf-8";
+*{
+	font-family: "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, sans-serif;
+}
+
+#panel{
+	width: (100% - 1.0em);
+}
+
+#panel div{
+	margin-bottom: 0.5em;
+}
+
+#control{
+	padding:0 0.5em;
+}
+
+#view_picture{
+}
+
+/*台詞*/
+.dream_comic{
+	display: table;
+	margin-top: 0.5em;
+	position: relative;
+	/*border: 1px solid black;*/
+	font-size: 16px;
+	line-height: 1.2;
+}
+
+.dream_comic img{
+	display: block;
+}
+
+.dream_comic p{
+	/*縦書き設定*/
+	-webkit-writing-mode: vertical-rl;
+		-ms-writing-mode: tb-rl;
+			writing-mode: vertical-rl;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	top: 0;/*初期値*/
+	left: 0;/*初期値*/
+	border: 1px solid rgba(0,0,0,0);
+}
+
+/*操作盤*/
+#control{
+	margin-left: 1em;
+}
+
+/*フレックスボックス*/
+.flex-row{
+  -webkit-flex-direction: row;
+          flex-direction: row;
+}
+
+.flexbox {
+  display: flex;
+  display: -ms-flexbox;
+  padding: 10px;
+}
+
+/*矢印*/
+#tri_set{
+	width: 6em;
+	height: 6em;
+	overflow: hidden;
+	position:relative;
+}
+.tri{
+	width: 0;
+	height: 0;
+	border: 1.5em solid transparent;
+	position: absolute;
+}
+.tri:hover{
+	opacity: 0.9;
+}
+.tri:active{
+	opacity: 0.7;
+}
+#tri_left{
+	border-right: 1.5em solid green;
+	top: 1.5em;
+	left: -1.5em;
+}
+#tri_top{
+	border-bottom: 1.5em solid green;
+	top:-1.5em;
+	left:1.5em;
+}
+#tri_bottom{
+	border-top: 1.5em solid green;
+	top:4.5em;
+	left: 1.5em;
+}
+#tri_right{
+	border-left: 1.5em solid green;
+	top: 1.5em;
+	left: 4.5em;
+}
+
+#dir_set{
+	position:relative;
+	margin-left: 1em;
+}
+
+.dir{
+	position: relative;
+	width: 4em;
+	height: 4em;
+	border-radius: 3em;
+	border-width: 0.5em;
+	border-style: solid;
+	margin: 0;
+}
+
+.dir:hover{
+	opacity: 0.9;
+}
+.dir:active{
+	opacity: 0.7;
+}
+
+#dir_left{
+	border-color: green transparent transparent green;
+}
+
+#dir_right{
+	border-color: green green transparent transparent;
+}
+
+#dir_left .tri{
+	border-color: transparent transparent transparent green;
+	transform: rotate(45deg);
+	top:3em;
+	left:0em;
+}
+
+#dir_right .tri{
+	border-color: transparent green transparent transparent;
+	transform: rotate(-45deg);
+	top:3em;
+	left:1em;
+}
+
+.noDrag{
+		user-select:none;
+		-webkit-user-select:none;
+		-moz-user-select:none;
+		-khtml-user-select:none;
+		-webkit-user-drag:none;
+		-khtml-user-drag:none;
+}
+
+h3{
+	margin:0.3em 0;
+	padding-left: 0.2em;
+	line-height: 1.2;
+	border-left:0.8em solid green;
+	border-bottom: 1px solid green;
+}
+h4{
+	margin:0;
+}
+p{
+	margin-top: 0;
+}
+
+.copy_text{
+	font-size: 0.8em;
+	border: 0.1em solid green;
+	margin:0 0.5em;
+	margin-bottom: 1em;
+	padding:0.5em;
+	border-radius: 0.5em;
+	max-height: 25vh;
+	overflow-y: scroll;
+}
+
+.text_small{
+	font-size: small;
+}
+
+.text_center{
+	text-align:center;
+}
